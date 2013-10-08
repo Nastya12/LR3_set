@@ -8,22 +8,29 @@ struct Node
     int count;
 };
 
-class Tree
+class Set
 {
-    public:
-        Node *root;
-        Tree();
-        Tree(int t); // рандомная матрица
-        void copyTree(Node *&rootnew, Node *rootold);
-        Tree(const Tree &ob); // копирование
-        void deleteTree(Node *top);
-        ~Tree();
-        void push (Node *&top, int data); //вставка элемента
-        void display (Node *top);// вывод дерева на экран
-        Node *find (Node *top, int key); //поиск по ключу
-        void printLeaves (Node*top); // вывод листьев на экран
-        void unite(Tree &A, Tree &B);
-        void intersection(Tree &A, Tree &B, Node *top);
+    void copySet(Node *&rootnew, Node *rootold);
+    void deleteSet(Node *top);
+public:
+    Node *root;
+    Set();
+    Set(int t);
+    Set (const Set &ob);
+    ~Set();
+    void push (Node *&top, int data);
+    void display (Node *top);
+    Node *find (Node *top, int key);
+    void printLeaves (Node*top);
+    void unite(Set &A, Set &B);
+    void unite(Node *top, Set &C);
+    void intersection(Set &A, Set &B);
+    void intersection(Node *top, Set &B,Set &C, Set &A);
+    void Set::intersection(Node*top,Set &C,Node*root);
+    Set&operator = (const Set &t);
+    void insert(int data);
+    void unite(Node* root1, Node* root2);
+    // bool operator == (const Set &leftt, int rightt);
 };
 
 #endif // TREE_H

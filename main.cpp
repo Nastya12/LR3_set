@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
     srand(time(NULL));
-    Tree tr(12), C;
+    Set tr(12), C;
     Node *u;
     int a, a1,a2, a3,A1,B1;
     int data;
@@ -15,11 +15,11 @@ int main()
     cout<<" Create set of A.\n";
     cout<<"enter number of elements of the set A.\n";
     cin>>A1;
-    Tree A(A1);
+    Set A(A1);
     cout<<"\n Create set of B.\n";
     cout<<"enter number of elements of the set B.\n";
     cin>>B1;
-    Tree B(B1);
+    Set B(B1);
     do
     {
         cout<<"\n\n Menu: \n";
@@ -30,7 +30,6 @@ int main()
         //cout<<" 5 -> difference two sets.\n";
         cout<<" 6 -> display set. \n";
         cout<<" 7 -> display leaves. \n";
-        //cout<<" 8 -> create two sets.\n ";
         cout<<" 0 -> exit. \n";
         cout<<" action=";
         cin>>a;
@@ -117,13 +116,14 @@ int main()
             break;
             case 3:
             {
-                Tree C;
+                Set C;
                 C.unite(A,B);
+                C.display(C.root);
             }break;
             case 4:
             {
-                Tree C;
-                C.intersection(A,B, C.root);
+                Set C;
+               // C.intersection(A,B, C.root);
             }
             case 6:
             {
@@ -168,6 +168,7 @@ int main()
             }
             break;
             case 0:
+            return 0;
                 break;
             default:
                 cout<<"error: incorrect action \n";

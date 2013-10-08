@@ -5,12 +5,12 @@
 
 using namespace std;
 
-Tree::Tree():
+Set::Set():
     root(0)
 {
 }
 
-void Tree::push (Node *&top, int data)
+void Set::push (Node *&top, int data)
 {
     if(top==0)
     {
@@ -21,37 +21,37 @@ void Tree::push (Node *&top, int data)
         top->right=0;
     }
     else if (data<top->datum)
-    push(top->left, data);
+        push(top->left, data);
     else if (data>top->datum)
-    push(top->right, data);
+        push(top->right, data);
     else top->count++;
 }
 
-Tree::Tree(int t):
+Set::Set(int t):
     root(0)
 {
-    for (int i=0;i<t ;i++ )
-    	push(root, rand()%10 -5);
+    for (int i=0; i<t ; i++ )
+        push(root, rand()%10 -5);
 }
 
-void Tree::copyTree(Node *&rootnew, Node *rootold)
+void Set::copySet(Node *&rootnew, Node *rootold)
 {
     if (rootold->left!=0)
     {
         push(rootnew, (rootold->left)->datum);
-        copyTree(rootnew, rootold->left);
+        copySet(rootnew, rootold->left);
     }
     if (rootold->right!=0)
     {
         push(rootnew, (rootold->right)->datum);
-        copyTree(rootnew, rootold->right);
+        copySet(rootnew, rootold->right);
     }
 }
 
-Tree::Tree (const Tree &ob)
+Set::Set (const Set &ob)
 {
     if (ob.root==0)
-    root=0;
+        root=0;
     else
     {
         root=new Node;
@@ -59,45 +59,46 @@ Tree::Tree (const Tree &ob)
         root->count=1;
         root->left=0;
         root->right=0;
-        copyTree(root, ob.root);
+        copySet(root, ob.root);
     }
 }
 
-void Tree::deleteTree(Node *top)
+void Set::deleteSet(Node *top)
 {
-    if (top->left!=0) deleteTree(top->left);
-    if (top->right!=0) deleteTree(top->right);
+    if (top->left!=0) deleteSet(top->left);
+    if (top->right!=0) deleteSet(top->right);
     delete top;
 }
 
-Tree::~Tree()
+Set::~Set()
 {
-    deleteTree(root);
+    deleteSet(root);
 }
 
-void Tree::display(Node *top)
+void Set::display(Node *top)
 {
     if(top!=0)
     {
         display(top->left);
-    cout<<"\n Number: "<<top->datum<<" - "<<top->count<<" kol-vo";
-    display(top->right);
+        cout<<"\n Number: "<<top->datum<<" - "<<top->count<<" kol-vo";
+        display(top->right);
     }
 }
 
-Node *Tree::find (Node*top, int key)
+Node *Set::find (Node*top, int key)
 {
     if(top==0)
-    return 0;
+        return 0;
     else if (key<top->datum) return find (top->left, key);
     else if (key>top->datum) return find (top->right, key);
     else return top;
 }
 
-void Tree::printLeaves( Node * top)
+
+void Set::printLeaves( Node * top)
 {
     if (top==0)
-    return;
+        return;
     else if ((top->left==0)&&(top->right==0))
     {
         cout<<"\n Number: "<< top->datum<<" - "<<top->count<<" kol-vo ";
@@ -108,19 +109,95 @@ void Tree::printLeaves( Node * top)
         printLeaves(top->right);
     }
 }
-void Tree::unite(Tree &A, Tree &B)
+void Set::unite(Set &A,Set &B)
 {
-    Tree C;
-    copyTree(C.root, A.root);
-    if (C.root!=B.root)
-    copyTree(C.root, B.root);
-    C.display(C.root);
+    Set C;
+    unite(root,C);
+    unite(B.root,C);
 }
 
-void Tree::intersection(Tree &A, Tree &B, Node *top)
+void Set::unite(Node *top, Set &C)
 {
-    Tree C;
-    if (B.find(B.root,top->datum)==A.find(A.root,top->datum));
-    push(C.root, top->datum);
-    C.display(C.root);
+    if (top!=0)
+    {
+        unite(top->right,C);
+        push(C.root, top->datum);
+        unite(top->left,C);
+    }
 }
+void Set::intersection(Set &A, Set &B)
+{
+    Set C;
+    intersection(root,C,B, A);
+    intersection(B.root,C,root);
+}
+
+void Set::intersection(Node *top, Set &C, Set &B, Set &A)
+{
+    if (top!=0)
+    {
+        intersection(top->right,C,B, A);
+        if (B.find(root,top->datum)==A.find(root,top->datum))
+            push(C.root, top->datum);
+        intersection(top->left,C, root);
+    }
+}
+
+void Set::intersection(Node*top,Set &C,Node*root)
+{
+    if(top!=0)
+    {
+        intersection(top->left,C,root);
+        if(find(root,top->datum)!=0)
+            push(C.root,top->datum);
+        intersection(top->right,C,root);
+    }
+}
+Set& Set::operator= (const Set &t)
+{
+    if(this==&t) return *this;
+    deleteSet(root);
+    copySet(root,t.root);
+    return *this;
+}
+
+
+/*void Set::unite(Node* root1, Node* root2)
+{
+    if(root1->left!=NULL) unite(root1->left, root2);
+    insert(root1->datum);
+    if(root1->right!=NULL) unite(root1->right, root2);
+
+    //delete root1;
+    //root1=NULL;
+}*/
+
+/*void Set::insert(int data)
+{
+    if (root==0)
+    {
+        root=new Node;
+        return;
+    }
+    else
+    {
+        int result;
+        Node *p,*n=root;
+        while (n)
+        {
+            p=n;
+            result=(data, p->datum);
+            if(result<0)
+                n=p->left;
+            else if(result>0)
+                n=p->right;
+            else return;
+        }
+        if (result<0)
+            p->left=new Node;
+        else
+            p->right=new Node;
+
+    }
+}*/
+
