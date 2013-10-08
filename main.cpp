@@ -27,7 +27,6 @@ int main()
         cout<<" 2 -> find. \n";
         cout<<" 3 -> unite. \n";
         cout<<" 4 -> intersection. \n";
-        //cout<<" 5 -> difference two sets.\n";
         cout<<" 6 -> display set. \n";
         cout<<" 7 -> display leaves. \n";
         cout<<" 0 -> exit. \n";
@@ -123,7 +122,8 @@ int main()
             case 4:
             {
                 Set C;
-               // C.intersection(A,B, C.root);
+                C.intersection(A,B);
+                C.display(C.root);
             }
             case 6:
             {
