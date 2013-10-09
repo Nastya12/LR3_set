@@ -7,8 +7,7 @@ using namespace std;
 int main()
 {
     srand(time(NULL));
-    Set tr(12), C;
-    Node *u;
+    Set C;
     int a, a1,a2, a3,A1,B1;
     int data;
     cout<<" \n Set \n";
@@ -27,8 +26,7 @@ int main()
         cout<<" 2 -> find. \n";
         cout<<" 3 -> unite. \n";
         cout<<" 4 -> intersection. \n";
-        cout<<" 6 -> display set. \n";
-        cout<<" 7 -> display leaves. \n";
+        cout<<" 5 -> display set. \n";
         cout<<" 0 -> exit. \n";
         cout<<" action=";
         cin>>a;
@@ -48,14 +46,14 @@ int main()
                     {
                         cout<<"Enter number= \n";
                         cin>>data;
-                        A.push(A.root,data);
+                        A.push(data);
                     }
                     break;
                     case 2:
                     {
                         cout<<"Enter number= \n";
                         cin>>data;
-                        B.push(B.root,data);
+                        B.push(data);
                     }
                     break;
                     }
@@ -72,41 +70,37 @@ int main()
                     {
                     case 1:
                     {
-                        if (A.root==0)
+                        if (A.isEmpty())
                             cout<<" Set A is empty.\n";
                         else
                         {
                             int key;
                             cout<<" Enter the required number: ";
                             cin>>key;
-                            if ((u=A.find(A.root,key))!=0)
+                            if ((A.find(key))!=0)
                             {
-                                cout<<"Elements: ";
+                                cout<<"Element: ";
                                 cout<<key;
-                                cout<<" finded ";
-                                cout<<u->count<<" kol-vo \n";
                             }
-                            else cout<<" Same elements is not find.\n";
+                            else cout<<" Same element is not find.\n";
                         }
                     }
                     break;
                     case 2:
                     {
-                        if (B.root==0)
+                        if (B.isEmpty())
                             cout<<" Set B is empty.\n";
                         else
                         {
                             int key;
                             cout<<" Enter the required number: ";
                             cin>>key;
-                            if ((u=B.find(B.root,key))!=0)
+                            if ((B.find(key))!=0)
                             {
-                                cout<<"Elements: ";
+                                cout<<"Element: ";
                                 cout<<key;
-                                cout<<" finded ";
-                                cout<<u->count<<" kol-vo \n";
                             }
-                            else cout<<" Same elements is not find.\n";
+                            else cout<<" Same element is not find.\n";
                         }
                     }
                     break;
@@ -115,17 +109,15 @@ int main()
             break;
             case 3:
             {
-                Set C;
-                C.unite(A,B);
-                C.display(C.root);
+                B.unite(A);
+                B.display();
             }break;
             case 4:
             {
                 Set C;
-                C.intersection(A,B);
-                C.display(C.root);
+               C.intersection(A,B);
             }
-            case 6:
+            case 5:
             {
                 cout<<"     1 -> display A:\n";
                 cout<<"     2 -> display B:\n";
@@ -136,37 +128,26 @@ int main()
                     {
                     case 1:
                     {
-                        if (A.root==0) cout<<"Set A is empty.\n";
+                        if (A.isEmpty()) cout<<"Set A is empty.\n";
                         else
                         {
                             cout<<" Set A \n";
-                            A.display(A.root);
+                            A.display();
                         }
                     }
                     break;
                     case 2:
                     {
-                        if (B.root==0) cout<<"Set B is empty.\n";
+                        if (B.isEmpty()) cout<<"Set B is empty.\n";
                         else
                         {
                             cout<<" Set B \n";
-                            B.display(B.root);
+                            B.display();
                         }
                     }
                     break;
                     }
-            }
-            break;
-            case 7:
-            {
-                if (tr.root==0) cout<<"Tree is empty.\n";
-                else
-                {
-                    cout<<" Leaves \n";
-                    tr.printLeaves(tr.root);
-                }
-            }
-            break;
+            }break;
             case 0:
             return 0;
                 break;

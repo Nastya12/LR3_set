@@ -10,27 +10,28 @@ struct Node
 
 class Set
 {
+    Node *root;
     void copySet(Node *&rootnew, Node *rootold);
     void deleteSet(Node *top);
+    void unite(Node *top);
+    void intersection(Node *top, Set &B,Set &C, Set &A);
+    void intersection(Node*top,Set &C,Node*root);
+    void push (Node *&top, int data);
+    void display (Node *top);
+    Node *find (Node *top, int key);
+    Node* copyNode(Node *nd);
 public:
-    Node *root;
     Set();
     Set(int t);
     Set (const Set &ob);
     ~Set();
-    void push (Node *&top, int data);
-    void display (Node *top);
-    Node *find (Node *top, int key);
-    void printLeaves (Node*top);
-    void unite(Set &A, Set &B);
-    void unite(Node *top, Set &C);
+    bool isEmpty()const;
+    void push (int data);
+    void display();
+    int find (int key);
+    Set unite(Set A);
     void intersection(Set &A, Set &B);
-    void intersection(Node *top, Set &B,Set &C, Set &A);
-    void Set::intersection(Node*top,Set &C,Node*root);
     Set&operator = (const Set &t);
-    void insert(int data);
-    void unite(Node* root1, Node* root2);
-    // bool operator == (const Set &leftt, int rightt);
 };
 
 #endif // TREE_H

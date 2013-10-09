@@ -27,6 +27,11 @@ void Set::push (Node *&top, int data)
     else top->count++;
 }
 
+void Set::push (int data)
+{
+    push(root, data);
+}
+
 Set::Set(int t):
     root(0)
 {
@@ -85,6 +90,11 @@ void Set::display(Node *top)
     }
 }
 
+void Set::display()
+{
+    display(root);
+}
+
 Node *Set::find (Node*top, int key)
 {
     if(top==0)
@@ -94,36 +104,32 @@ Node *Set::find (Node*top, int key)
     else return top;
 }
 
-
-void Set::printLeaves( Node * top)
+int Set::find (int key)
 {
-    if (top==0)
-        return;
-    else if ((top->left==0)&&(top->right==0))
-    {
-        cout<<"\n Number: "<< top->datum<<" - "<<top->count<<" kol-vo ";
-    }
-    else
-    {
-        printLeaves(top->left);
-        printLeaves(top->right);
-    }
+    Node *top=find(root,key);
+    if (top) return top->count;
+    else return 0;
 }
-void Set::unite(Set &A,Set &B)
+bool Set::isEmpty() const
+{
+    return root==0;
+}
+
+Set Set::unite(Set A)
 {
     Set C;
-    unite(root,C);
-    unite(B.root,C);
+    C.root=C.copyNode(root);
+    C.unite(A.root);
+    return C;
 }
 
-void Set::unite(Node *top, Set &C)
+void Set::unite(Node *top)
 {
-    if (top!=0)
-    {
-        unite(top->right,C);
-        push(C.root, top->datum);
-        unite(top->left,C);
-    }
+    if (!top)
+        return;
+    push(root, top->datum);
+    unite(top->right);
+    unite(top->left);
 }
 void Set::intersection(Set &A, Set &B)
 {
@@ -134,13 +140,13 @@ void Set::intersection(Set &A, Set &B)
 
 void Set::intersection(Node *top, Set &C, Set &B, Set &A)
 {
-    if (top!=0)
-    {
+    if (!top)
+    return;
         intersection(top->right,C,B, A);
         if (B.find(root,top->datum)==A.find(root,top->datum))
             push(C.root, top->datum);
         intersection(top->left,C, root);
-    }
+
 }
 
 void Set::intersection(Node*top,Set &C,Node*root)
@@ -161,43 +167,15 @@ Set& Set::operator= (const Set &t)
     return *this;
 }
 
-
-/*void Set::unite(Node* root1, Node* root2)
+Node* Set::copyNode(Node *nd)
 {
-    if(root1->left!=NULL) unite(root1->left, root2);
-    insert(root1->datum);
-    if(root1->right!=NULL) unite(root1->right, root2);
-
-    //delete root1;
-    //root1=NULL;
-}*/
-
-/*void Set::insert(int data)
-{
-    if (root==0)
-    {
-        root=new Node;
-        return;
-    }
-    else
-    {
-        int result;
-        Node *p,*n=root;
-        while (n)
-        {
-            p=n;
-            result=(data, p->datum);
-            if(result<0)
-                n=p->left;
-            else if(result>0)
-                n=p->right;
-            else return;
-        }
-        if (result<0)
-            p->left=new Node;
-        else
-            p->right=new Node;
-
-    }
-}*/
+    if (!nd)
+        return NULL;
+    Node *Nd=new Node;
+    Nd->datum=Nd->datum;
+    Nd->count=Nd->count;
+    Nd->left=copyNode(Nd->left);
+    Nd->right=copyNode(Nd->right);
+    return Nd;
+}
 
